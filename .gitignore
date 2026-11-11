@@ -50,3 +50,6 @@ fixtures-out/
 .env
 .env.*
 !.env.example
+
+# agent worktrees (local only)
+.claude/worktrees/
