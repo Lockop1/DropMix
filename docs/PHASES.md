@@ -9,9 +9,9 @@ The orchestrator updates this file after every integration. Scope for each task 
 |---|---|---|---|---|
 | 0-docs | `CLAUDE.md`, docs skeleton, Phase 0–1 contracts | orchestrator | done | ADR 0001–0003 |
 | 0A | Repo scaffold: pnpm + Turborepo, Biome, Vitest, Playwright, CI, gitignore, pre-commit guards | subagent | done | ADR 0004 |
-| 0B | Audio spike: `/lab`, Stretcher candidates, render timings, seam test, FLAC decode | subagent | todo | `docs/spikes/audio.md` |
+| 0B | Audio spike: `/lab`, Stretcher candidates, render timings, seam test, FLAC decode | subagent | in-progress | `docs/spikes/audio.md` |
 | 0C | Forge spike: setup script, `forge doctor`, `forge fixtures`, analysis accuracy on fixtures, dependency install report | subagent | in-progress | `docs/spikes/forge.md` |
-| 0D | Rooms spike: minimal Durable Object room, host code + QR, join, tap, latency, reconnect | subagent | todo | `docs/spikes/rooms.md` |
+| 0D | Rooms spike: minimal Durable Object room, host code + QR, join, tap, latency, reconnect | subagent | in-progress | `docs/spikes/rooms.md` |
 | 0V | Phase 0 verifier | subagent (fresh) | todo | |
 | 0P | `docs/playtests/phase-0.md` + checkpoint summary | orchestrator | todo | |
 
