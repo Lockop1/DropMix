@@ -1,0 +1,24 @@
+{
+  "name": "@stemdeck/protocol",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Room protocol: versioned zod message schemas.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stemdeck/engine": "workspace:*",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@stemdeck/e2e",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Playwright end-to-end tests (desktop + 360x640 mobile emulation).",
+  "type": "module",
+  "scripts": {
+    "e2e": "node run.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.19.0",
+    "typescript": "^7.0.2"
+  }
+}

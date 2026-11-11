@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+  - tools/studio-ui
+  - e2e
+
+# esbuild (pulled in by tsx) works without its postinstall step, so no install scripts run.
+ignoredBuiltDependencies:
+  - esbuild

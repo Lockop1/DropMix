@@ -1,0 +1,30 @@
+@import "tailwindcss";
+/* Shared components live outside this app; let Tailwind see their class names. */
+@source "../../../packages/ui/src";
+
+/* Phone-first shell (docs/BUILD_PROMPT.md §8.6): no pull-to-refresh or scroll chaining. */
+html,
+body {
+  margin: 0;
+  overscroll-behavior: none;
+  background-color: #0b0b12;
+  color: #f4f4f8;
+  -webkit-text-size-adjust: 100%;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+/* Root layout: dynamic viewport height plus safe-area insets (notches, home indicator). */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  overscroll-behavior: none;
+}

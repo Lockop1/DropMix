@@ -1,0 +1,12 @@
+{
+  "name": "@stemdeck/studio-ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Forge Studio front end. Placeholder until Phase 2.",
+  "type": "module",
+  "scripts": {
+    "typecheck": "node -e \"console.log('@stemdeck/studio-ui: placeholder, nothing to typecheck (Phase 2)')\"",
+    "test": "node -e \"console.log('@stemdeck/studio-ui: placeholder, no tests yet (Phase 2)')\"",
+    "build": "node -e \"console.log('@stemdeck/studio-ui: placeholder, nothing to build (Phase 2)')\""
+  }
+}

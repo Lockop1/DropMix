@@ -1,0 +1,13 @@
+{
+  "name": "@stemdeck/rooms",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Rooms backend (Cloudflare Worker + Room Durable Object). Placeholder until task 0D.",
+  "type": "module",
+  "scripts": {
+    "dev": "node -e \"console.log('rooms spike not implemented yet (task 0D)')\"",
+    "typecheck": "node -e \"console.log('@stemdeck/rooms: placeholder, nothing to typecheck (task 0D)')\"",
+    "test": "node -e \"console.log('@stemdeck/rooms: placeholder, no tests yet (task 0D)')\"",
+    "build": "node -e \"console.log('@stemdeck/rooms: placeholder, nothing to build (task 0D)')\""
+  }
+}

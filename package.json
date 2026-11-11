@@ -1,0 +1,28 @@
+{
+  "name": "stemdeck",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "TURBO_TELEMETRY_DISABLED=1 turbo run typecheck",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "TURBO_TELEMETRY_DISABLED=1 turbo run test && pnpm run test:scripts",
+    "test:scripts": "node --test \"scripts/**/*.test.mjs\"",
+    "build": "TURBO_TELEMETRY_DISABLED=1 turbo run build",
+    "dev": "pnpm --filter @stemdeck/web dev",
+    "dev:rooms": "pnpm --filter @stemdeck/rooms dev",
+    "e2e": "pnpm --filter @stemdeck/e2e e2e",
+    "guard": "node scripts/guard.mjs --all",
+    "prepare": "git rev-parse --git-dir >/dev/null 2>&1 && git config core.hooksPath .githooks || true"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6",
+    "turbo": "^2.11.10",
+    "typescript": "^7.0.2"
+  }
+}

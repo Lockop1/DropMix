@@ -1,0 +1,29 @@
+{
+  "name": "@stemdeck/pack",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Pack schema (zod), JSON Schema export, loader and catalog API.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./pack.schema.json": "./schema/pack.schema.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc --noEmit",
+    "export-schema": "tsx scripts/export-schema.ts"
+  },
+  "dependencies": {
+    "@stemdeck/engine": "workspace:*",
+    "@stemdeck/harmony": "workspace:*",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "tsx": "^4.20.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

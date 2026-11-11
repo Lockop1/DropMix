@@ -1,0 +1,672 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "packId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+    },
+    "songs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "songId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "artist": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "album": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3000
+          },
+          "genre": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "nativeBpm": {
+            "type": "number",
+            "minimum": 30,
+            "maximum": 300
+          },
+          "key": {
+            "type": "object",
+            "properties": {
+              "tonic": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 11
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "major",
+                  "minor"
+                ]
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "tonic",
+              "mode",
+              "confidence"
+            ],
+            "additionalProperties": false
+          },
+          "art": {
+            "type": "string",
+            "pattern": "^art\\/[A-Za-z0-9._-]+\\.webp$"
+          }
+        },
+        "required": [
+          "songId",
+          "title",
+          "artist",
+          "nativeBpm",
+          "key"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "cardId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "songId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "lead",
+              "loop",
+              "beat",
+              "bass",
+              "wild",
+              "fx"
+            ]
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "number",
+                "const": 1
+              },
+              {
+                "type": "number",
+                "const": 2
+              },
+              {
+                "type": "number",
+                "const": 3
+              }
+            ]
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "artist": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "playlist": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "fx": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 300
+              },
+              "conditions": {
+                "maxItems": 4,
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "slotEmpty"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "playedOverRole"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "lead",
+                            "loop",
+                            "beat",
+                            "bass"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "role"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "controls"
+                        },
+                        "roles": {
+                          "minItems": 1,
+                          "maxItems": 4,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "lead",
+                              "loop",
+                              "beat",
+                              "bass"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "roles"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "sameSongPair"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "actions": {
+                "minItems": 1,
+                "maxItems": 4,
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "points"
+                        },
+                        "target": {
+                          "type": "string",
+                          "enum": [
+                            "self",
+                            "opponents",
+                            "all"
+                          ]
+                        },
+                        "amount": {
+                          "type": "integer",
+                          "minimum": -10,
+                          "maximum": 10
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "target",
+                        "amount"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "extraMove"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "draw"
+                        },
+                        "count": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 7
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "count"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "reshuffleHand"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "clear"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "enum": [
+                            "opponents",
+                            "any"
+                          ]
+                        },
+                        "roles": {
+                          "minItems": 1,
+                          "maxItems": 4,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "lead",
+                              "loop",
+                              "beat",
+                              "bass"
+                            ]
+                          }
+                        },
+                        "maxLevel": {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 1
+                            },
+                            {
+                              "type": "number",
+                              "const": 2
+                            },
+                            {
+                              "type": "number",
+                              "const": 3
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "owner"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "block"
+                        },
+                        "roles": {
+                          "minItems": 1,
+                          "maxItems": 4,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "lead",
+                              "loop",
+                              "beat",
+                              "bass"
+                            ]
+                          }
+                        },
+                        "turns": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 5
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "roles",
+                        "turns"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "stealTop"
+                        },
+                        "slot": {
+                          "type": "string",
+                          "const": "chosen"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "slot"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "sound": {
+                "type": "string",
+                "enum": [
+                  "riser",
+                  "downlifter",
+                  "stutter",
+                  "siren",
+                  "subdrop",
+                  "stab"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "text",
+              "conditions",
+              "actions",
+              "sound"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "cardId",
+          "songId",
+          "kind",
+          "level",
+          "title",
+          "artist"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "stems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stemId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "songId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "lead",
+              "loop",
+              "beat",
+              "bass"
+            ]
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^audio\\/[A-Za-z0-9._-]+\\.flac$"
+          },
+          "sampleRate": {
+            "type": "number",
+            "const": 44100
+          },
+          "handleSamples": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "loopStartSample": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "loopEndSample": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "bars": {
+            "anyOf": [
+              {
+                "type": "number",
+                "const": 4
+              },
+              {
+                "type": "number",
+                "const": 8
+              },
+              {
+                "type": "number",
+                "const": 16
+              }
+            ]
+          },
+          "bpm": {
+            "type": "number",
+            "minimum": 30,
+            "maximum": 300
+          },
+          "pcs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 11
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "major",
+              "minor"
+            ]
+          },
+          "chroma": {
+            "maxItems": 16,
+            "type": "array",
+            "items": {
+              "minItems": 12,
+              "maxItems": 12,
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "entryEvery": {
+            "anyOf": [
+              {
+                "type": "number",
+                "const": 1
+              },
+              {
+                "type": "number",
+                "const": 2
+              },
+              {
+                "type": "number",
+                "const": 4
+              }
+            ]
+          },
+          "gainDb": {
+            "type": "number",
+            "minimum": -40,
+            "maximum": 40
+          },
+          "lufs": {
+            "type": "number",
+            "minimum": -100,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "stemId",
+          "songId",
+          "role",
+          "file",
+          "sampleRate",
+          "handleSamples",
+          "loopStartSample",
+          "loopEndSample",
+          "bars",
+          "bpm",
+          "pcs",
+          "mode",
+          "chroma",
+          "entryEvery",
+          "gainDb",
+          "lufs"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "playlists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "cardIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "cardIds"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "packId",
+    "name",
+    "createdAt",
+    "songs",
+    "cards",
+    "stems",
+    "playlists"
+  ],
+  "additionalProperties": false
+}

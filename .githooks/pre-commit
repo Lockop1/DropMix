@@ -1,0 +1,5 @@
+#!/bin/sh
+# Blocks audio, .stemdeck packs, anything under library/, files over 5 MB and the original
+# game's name from being committed. Rules: scripts/guard.mjs. Enabled by `pnpm install`
+# (the root `prepare` script sets core.hooksPath to .githooks).
+exec node scripts/guard.mjs
