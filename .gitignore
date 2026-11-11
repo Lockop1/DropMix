@@ -1,0 +1,52 @@
+# dependencies / build
+node_modules/
+dist/
+build/
+.turbo/
+.vite/
+coverage/
+*.tsbuildinfo
+.wrangler/
+.dev.vars
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# test output
+playwright-report/
+test-results/
+blob-report/
+
+# user content: NEVER commit (see CLAUDE.md constraints)
+library/
+*.stemdeck
+*.flac
+*.wav
+*.mp3
+*.m4a
+*.m4p
+*.ogg
+*.opus
+*.aac
+*.aif
+*.aiff
+*.wma
+
+# generated synthetic fixtures (built at test time by `forge fixtures`)
+fixtures-out/
+.fixtures/
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log
+.env
+.env.*
+!.env.example
