@@ -128,7 +128,8 @@ Budget: player action → host screen p95 ≤ 250 ms. On loopback in the build s
 - `allin1` (song sections) cannot be installed with current PyTorch. Sections will use a librosa fallback in Phase 2.
 - Rooms: whoever sends the first host `hello` for a new code becomes the host. A fix is planned for Phase 3 (the create call returns a host token). Irrelevant for local testing.
 - `/lab` and `/roomlab` are throwaway spike pages with plain styling. The real UI starts in Phase 1.
-- CI (`.github/workflows/ci.yml`) has not run on GitHub yet; the first push to a branch with Actions enabled will show whether the action versions are right.
+- CI is green on GitHub for the checkpoint commit: the main job (guard, typecheck, lint, tests, build) and the Forge job (ruff, pytest). The Playwright e2e job only runs on pull requests to `main`, so it has run locally (18 tests pass) but never on GitHub.
+- A fresh verifier checked Phase 0 from a clean install: all eight acceptance criteria passed and its attacks on the room server, the license gate and the stretcher contract held. Its follow-ups are listed in `docs/PHASES.md`.
 
 ## Decisions you may want to veto
 
