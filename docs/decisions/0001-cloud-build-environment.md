@@ -8,7 +8,7 @@ Status: accepted (2026-11-11)
 
 - Linux x86_64, 4 cores, 15 GB RAM, about 30 GB free disk, no GPU.
 - Node 22, pnpm 10, uv, ffmpeg 6.1 and headless Chromium are present.
-- The npm registry and PyPI are reachable. Model-weight hosts (Hugging Face, GitHub release assets, Meta's CDN) and Cloudflare's API and tunnel endpoints are not.
+- The npm registry and PyPI are reachable. Hugging Face, the PyTorch wheel index, Meta's CDN, the beat_this checkpoint host and Cloudflare's API and tunnel endpoints are not. GitHub release assets turned out to be reachable for downloads (spike 0C fetched the two separator weights that way), although an initial probe of a release page was refused.
 - The user's songs and phones are not reachable.
 - The session may push only to its designated branch.
 

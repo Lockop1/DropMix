@@ -97,12 +97,15 @@ Run from the repo root.
 | `pnpm dev` | start the web app (Vite) |
 | `pnpm dev:rooms` | start the rooms Worker locally (`wrangler dev`) |
 | `pnpm e2e` | Playwright end-to-end tests (pass `-- --trace off`) |
-| `uv run --project tools/forge forge <cmd>` | Forge CLI (`doctor`, `fixtures`, `ingest`, `export`, `studio`) |
-| `uv run --project tools/forge pytest` | Forge tests |
+| `uv sync --project tools/forge` | install Forge (dev group includes the `analysis` extra; add `--extra separation` on a GPU machine) |
+| `uv run --project tools/forge forge <cmd>` | Forge CLI: `doctor`, `fixtures`, `analyze`, `models`, `bench-separation` now; `ingest`, `export`, `studio` in later phases |
+| `uv run --project tools/forge pytest` | Forge tests (about 3.5 min) |
+| `uv run --project tools/forge ruff check tools/forge` | Forge lint |
+| `node e2e/bench/lab-bench.mjs --label "<machine>"` | headless audio benchmark (same numbers as `/lab`) |
 
 ## How to run
 
-- **Game (dev):** `pnpm install && pnpm dev`, then open the printed URL. `/lab` is the audio spike page.
+- **Game (dev):** `pnpm install && pnpm dev`, then open the printed URL. `/lab` is the audio spike page; `/roomlab` is the rooms spike page (needs `pnpm dev:rooms`).
 - **Rooms (dev):** `pnpm dev:rooms` in a second terminal.
 - **Phone testing** needs HTTPS: `cloudflared tunnel --url http://localhost:5173` (no account needed) and open the printed URL on the phone.
 - **Forge:** needs Python 3.11 via `uv`, ffmpeg, and (for real songs) a CUDA GPU under WSL2. `tools/forge/scripts/setup-wsl.sh` installs the prerequisites; `forge doctor` checks them.
@@ -110,5 +113,5 @@ Run from the repo root.
 ## Environment notes
 
 - Target dev machine: Windows 11 laptop, 16 GB RAM, everything inside WSL2 (Ubuntu 24.04). Max 3–4 concurrent subagents; never two GPU jobs at once; never several full Playwright suites in parallel.
-- This repo is also built in cloud sessions with no GPU and no access to model-weight hosts. There, Forge code is tested against synthetic fixtures only; separation of real songs runs on the user's machine. See `docs/decisions/0001-cloud-build-environment.md`.
+- This repo is also built in cloud sessions with no GPU and only partial access to model-weight hosts. There, Forge code is tested against synthetic fixtures only; separation of real songs runs on the user's machine. See `docs/decisions/0001-cloud-build-environment.md`.
 - In cloud sessions Chromium and Playwright are pre-installed: never run `playwright install`; if a pinned version cannot find its browser, launch with `executablePath: '/opt/pw-browsers/chromium'`.

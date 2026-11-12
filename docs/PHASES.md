@@ -10,9 +10,9 @@ The orchestrator updates this file after every integration. Scope for each task 
 | 0-docs | `CLAUDE.md`, docs skeleton, Phase 0–1 contracts | orchestrator | done | ADR 0001–0003 |
 | 0A | Repo scaffold: pnpm + Turborepo, Biome, Vitest, Playwright, CI, gitignore, pre-commit guards | subagent | done | ADR 0004 |
 | 0B | Audio spike: `/lab`, Stretcher candidates, render timings, seam test, FLAC decode | subagent | done | `docs/spikes/audio.md`, ADR 0006 |
-| 0C | Forge spike: setup script, `forge doctor`, `forge fixtures`, analysis accuracy on fixtures, dependency install report | subagent | in-progress | `docs/spikes/forge.md` |
+| 0C | Forge spike: setup script, `forge doctor`, `forge fixtures`, analysis accuracy on fixtures, dependency install report | subagent | done | `docs/spikes/forge.md`, ADR 0005 (separator provisional) |
 | 0D | Rooms spike: minimal Durable Object room, host code + QR, join, tap, latency, reconnect | subagent | done | `docs/spikes/rooms.md`, ADR 0007 |
-| 0V | Phase 0 verifier | subagent (fresh) | todo | |
+| 0V | Phase 0 verifier | subagent (fresh) | in-progress | |
 | 0P | `docs/playtests/phase-0.md` + checkpoint summary | orchestrator | todo | |
 
 Deferred to the user's machine at Checkpoint 0 (cannot run in a cloud session — ADR 0001):
