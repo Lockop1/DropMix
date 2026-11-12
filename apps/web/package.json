@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stemdeck/audio": "workspace:*",
     "@stemdeck/ui": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
