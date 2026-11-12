@@ -1,0 +1,80 @@
+[project]
+name = "stemdeck-forge"
+version = "0.1.0"
+description = "Forge: turns your own DRM-free songs into STEMDECK card packs. Runs only on your machine."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+# Core install stays light and permissive-licensed: no torch, no model weights.
+dependencies = [
+    "typer>=0.15",
+    "rich>=13",
+    "numpy>=2.0,<3",
+    "scipy>=1.13",
+    "soundfile>=0.13",
+    "librosa>=0.11",
+    "mutagen>=1.47",
+    "pyloudnorm>=0.1.1",
+    "pyrubberband>=0.4",
+    "fastapi>=0.115",
+]
+
+[project.optional-dependencies]
+# Better analysis backends without torch, local tool only, never shipped:
+#  - essentia (AGPL-3.0): KeyExtractor, edma vs bgate profiles.
+#  - madmom (code BSD-3-Clause, bundled models CC BY-NC-SA 4.0 = non-commercial): RNN+DBN
+#    downbeat tracker, the beat_this fallback. The PyPI release (0.16.1, 2018) does not import
+#    on Python 3.11, so it comes from a pinned git commit (see [tool.uv.sources]).
+analysis = [
+    "essentia>=2.1b6.dev1389",
+    "madmom>=0.17.dev0",
+]
+# Torch-based models: source separation (RoFormer + Demucs via audio-separator) and
+# beat_this beats/downbeats. Torch from PyPI is the CUDA build (about 3 GB of wheels).
+# audio-separator's "cpu" extra only selects onnxruntime (used by MDX-Net models);
+# the RoFormer and Demucs models we use run on torch and still use CUDA.
+separation = [
+    "torch>=2.6",
+    "audio-separator[cpu]>=0.48",
+    "beat-this>=1.1",
+]
+# No "sections" extra yet: allin1 1.1.0 imports natten's pre-0.18 API, which has no build for
+# current torch (see docs/spikes/forge.md). Sections use the librosa fallback until that changes.
+
+[project.scripts]
+forge = "forge.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.11",
+    "stemdeck-forge[analysis]",
+]
+
+[build-system]
+requires = ["uv_build>=0.11,<0.12"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "forge"
+
+[tool.uv.sources]
+madmom = { git = "https://github.com/CPJKU/madmom", rev = "27f032e8947204902c675e5e341a3faf5dc86dae" }
+
+[tool.uv]
+# Never download an interpreter implicitly; setup-wsl.sh installs 3.11 explicitly.
+python-downloads = "manual"
+# Forge targets Linux x86_64 only (WSL2 on the laptop, Linux in cloud sessions).
+environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "NPY"]
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
