@@ -17,6 +17,8 @@ describe('router', () => {
       'settings',
       'lab/*',
       'roomlab/*',
+      'packlab/*',
+      'styleguide/*',
     ]);
   });
 

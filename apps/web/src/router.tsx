@@ -16,7 +16,7 @@ function lazyRoute(path: string, load: () => Promise<RouteModule>): RouteObject 
   };
 }
 
-/** Every top-level screen. `/lab/*` and `/roomlab/*` are splats: nested routes live in their directory. */
+/** Every top-level screen. `/lab/*`, `/roomlab/*`, `/packlab/*` and `/styleguide/*` are splats: nested routes live in their directory. */
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -32,6 +32,8 @@ export const routes: RouteObject[] = [
       lazyRoute('settings', () => import('./routes/settings')),
       lazyRoute('lab/*', () => import('./routes/lab')),
       lazyRoute('roomlab/*', () => import('./routes/roomlab')),
+      lazyRoute('packlab/*', () => import('./routes/packlab')),
+      lazyRoute('styleguide/*', () => import('./routes/styleguide')),
     ],
   },
 ];

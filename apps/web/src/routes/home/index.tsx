@@ -9,6 +9,8 @@ const LINKS: { to: string; label: string; hint: string }[] = [
   { to: '/settings', label: 'Settings', hint: 'Packs, audio, calibration' },
   { to: '/lab', label: 'Audio lab', hint: 'Phase 0 audio spike' },
   { to: '/roomlab', label: 'Room lab', hint: 'Phase 0 rooms spike' },
+  { to: '/packlab', label: 'Pack lab', hint: 'Pack import test page' },
+  { to: '/styleguide', label: 'Style guide', hint: 'Design system preview' },
 ];
 
 export default function Home() {
