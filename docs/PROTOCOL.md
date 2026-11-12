@@ -49,6 +49,24 @@ Only text metadata crosses the network. Audio and art never do.
 - `view.request` is added to make "on a gap, the client requests a fresh view" explicit.
 - `host.catalog` carries `chunk`/`chunks` for chunked uploads.
 
+## Transport details established by the rooms spike (0D)
+
+- HTTP: `POST /rooms` → `{ code }` creates a room; `GET /rooms/:code` → whether it exists. WebSocket path: `/parties/room/:code`. In development the web app proxies all of it under `/rooms-api`.
+- A WebSocket to a code that was never created gets `error{room_not_found}` and a close.
+- Close codes 4000–4999 mean "do not reconnect": 4001 replaced by a newer connection for the same seat, 4003 not host, 4004 room not found, 4005 unsupported version, 4009 room full.
+- `rate_limited` is sent at most once per window; excess frames are dropped.
+- A frame before `hello` gets `bad_message`. A valid v1 message the server does not implement yet gets `wrong_phase`.
+- `ping.time` is the client's own clock, echoed back unchanged; `serverTime` is the server's.
+- Spike-only messages (`spike.tap`, `spike.state`) live in `packages/protocol/src/spike.ts` and are not part of v1. The file is deleted in Phase 3.
+
+## Planned for the v1 freeze (Phase 3, task 3B)
+
+Accepted from the spike's findings; not yet in the schemas:
+
+1. **Close the host-claim race.** Today the first `hello{role:'host'}` claims a new room, so someone who learns the code before the host connects could take the host seat. `POST /rooms` will return `{ code, hostToken }` and the host's first `hello` must carry that token as `resumeToken`.
+2. **Error codes** `not_player` (a host or unseated socket sent a player-only message) and `replaced` (sent before a 4001 close).
+3. **Limits** `helloTimeoutMs` (close sockets that never say `hello`) and a per-IP join rate limit against room-code guessing (§10.3).
+
 ## Change log
 
 | Version | Date | Change |
