@@ -11,6 +11,14 @@ export default defineConfig({
     host: true,
     // Accept any Host header: quick tunnels (e.g. cloudflared) use random hostnames.
     allowedHosts: true,
+    // Rooms spike (0D): one origin for phones. `/rooms-api/*` (HTTP + WebSocket) → wrangler dev.
+    proxy: {
+      '/rooms-api': {
+        target: 'http://localhost:8787',
+        ws: true,
+        rewrite: (path) => path.replace(/^\/rooms-api/, ''),
+      },
+    },
   },
   preview: {
     port: 4173,

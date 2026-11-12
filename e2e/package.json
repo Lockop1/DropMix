@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "e2e": "node run.mjs",
+    "bench:rooms": "node bench/rooms-latency.mjs",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -12,7 +12,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stemdeck/protocol": "workspace:*",
     "@stemdeck/ui": "workspace:*",
+    "partysocket": "1.3.0",
+    "qrcode-generator": "2.0.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^8.5.0",
