@@ -32,8 +32,9 @@ Web Worker, and a realtime AudioWorklet path, in headless Chromium on a 4-vCPU c
   for personal A/B listening. They are not fallbacks for the shipped app.
 - No realtime DSP on the audio thread (option 1 rejected: 16 % of a cloud core for 5 voices,
   more on phones, glitch risk).
-- Pack audio stays FLAC 44.1 kHz with 1-bar handles (Chromium decode is length-exact and
-  bit-exact).
+- Pack audio stays FLAC 44.1 kHz with 1-bar handles. Chromium decodes the spike's own
+  minimal FLAC streams length-exact and bit-exact; FLAC written by Forge (ffmpeg/libsndfile,
+  compressed frames) is re-checked in Phase 1 (tasks 1D/1E).
 
 Provisional parts (confirm at Checkpoint 0 from `/lab` on the user's laptop and phones):
 the render-time budgets (cloud: 326–581 ms per 8-bar loop; laptop budget 400 ms, phone 1200 ms),

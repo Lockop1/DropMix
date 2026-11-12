@@ -32,7 +32,7 @@ Sections: allin1; librosa recurrence/novelty.
 - Key: Essentia (edma/bgate vote) → librosa fallback, on bass+other stems.
 - Chroma: librosa `chroma_cqt`, beat-synchronous, averaged per bar, per harmonic stem.
 - Sections: no allin1; librosa fallback in Phase 2.
-- Packaging: core / `analysis` / `separation` extras as above; no `sections` extra.
+- Packaging: a light core install plus two optional extras — `analysis` (Essentia, madmom) and `separation` (torch, audio-separator, beat_this). No `sections` extra.
 
 ## Consequences
 

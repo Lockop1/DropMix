@@ -38,6 +38,7 @@ STEMDECK constraints:
 - Record every non-obvious choice as an ADR draft in your report; the orchestrator files it under `docs/decisions/`.
 - Add every new dependency or model weight, with its license, to your report so the orchestrator can update `docs/LICENSES.md`.
 - Commits use Conventional Commits (`feat(audio): …`, `test(engine): …`).
+- Run Turborepo through the root scripts (`pnpm typecheck`, `pnpm test`, `pnpm build`), which disable its telemetry. `pnpm install` also opts the machine out (`turbo telemetry disable`). Never run `turbo` in a way that sends telemetry: the project allows no analytics.
 
 ## Repo map
 
@@ -91,7 +92,7 @@ Run from the repo root.
 | `pnpm typecheck` | `tsc --noEmit` in every package (Turborepo) |
 | `pnpm lint` | Biome check (lint + format) |
 | `pnpm lint:fix` | Biome check with safe fixes applied |
-| `pnpm test` | Vitest unit + property tests in every package |
+| `pnpm test` | Vitest tests in every package, then the guard tests |
 | `pnpm build` | build every package and app |
 | `pnpm --filter @stemdeck/<name> <script>` | run one package's script |
 | `pnpm dev` | start the web app (Vite) |
@@ -99,7 +100,7 @@ Run from the repo root.
 | `pnpm e2e` | Playwright end-to-end tests (pass `-- --trace off`) |
 | `uv sync --project tools/forge` | install Forge (dev group includes the `analysis` extra; add `--extra separation` on a GPU machine) |
 | `uv run --project tools/forge forge <cmd>` | Forge CLI: `doctor`, `fixtures`, `analyze`, `models`, `bench-separation` now; `ingest`, `export`, `studio` in later phases |
-| `uv run --project tools/forge pytest` | Forge tests (about 3.5 min) |
+| `uv run --project tools/forge pytest tools/forge` | Forge tests (about 4 min). Pass the path so pytest picks up Forge's own config |
 | `uv run --project tools/forge ruff check tools/forge` | Forge lint |
 | `node e2e/bench/lab-bench.mjs --label "<machine>"` | headless audio benchmark (same numbers as `/lab`) |
 

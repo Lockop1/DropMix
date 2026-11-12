@@ -25,7 +25,7 @@ Loaded only by dynamic import when `VITE_ENABLE_NONPERMISSIVE_STRETCHERS=1`. Wit
 | Dependency | License | Used in | Commercial OK | Notes |
 |---|---|---|---|---|
 | soundtouchjs | LGPL-2.1 | packages/audio (flagged stretcher) | only under LGPL obligations | 0.3.0. The `@soundtouchjs/*` packages were rejected: they claim MPL-2.0 for code derived from LGPL SoundTouch |
-| rubberband-wasm | GPL-2.0-or-later | packages/audio (flagged stretcher) | **no** | 3.3.0; a commercial licence is sold separately by the Rubber Band authors |
+| rubberband-wasm | GPL-2.0 (its `package.json` says "GPLv2"; upstream Rubber Band is GPL-2.0-or-later) | packages/audio (flagged stretcher) | **no** | 3.3.0; a commercial licence is sold separately by the Rubber Band authors |
 
 ## Rooms server
 

@@ -25,7 +25,7 @@ uv sync --project tools/forge --extra analysis --extra separation    # + torch, 
 
 | Extra | Contents | Why optional |
 |---|---|---|
-| (core) | typer, numpy, scipy, soundfile, librosa, mutagen, pyloudnorm, pyrubberband, fastapi | light, permissive licenses |
+| (core) | typer, numpy, scipy, soundfile, librosa, mutagen, pyloudnorm, pyrubberband, fastapi | light; permissive except mutagen (GPL-2.0-or-later) |
 | `analysis` | essentia (AGPL-3.0), madmom from git (BSD code, CC BY-NC-SA models) | licenses; madmom builds C extensions |
 | `separation` | torch (CUDA wheel, ~3 GB), audio-separator, beat_this | size; needs a GPU to be useful |
 
@@ -43,7 +43,7 @@ uv run --project tools/forge forge analyze .fixtures [--json]            # analy
 uv run --project tools/forge forge analyze path/to/song.flac [--json]
 uv run --project tools/forge forge models list|download                  # separation model weights
 uv run --project tools/forge forge bench-separation SONGS_DIR [--fixtures .fixtures] [--dry-run]
-uv run --project tools/forge pytest
+uv run --project tools/forge pytest tools/forge
 uv run --project tools/forge ruff check tools/forge
 ```
 

@@ -1,0 +1,3 @@
+#!/bin/sh
+# Blocks the original game's name in commit messages. Rules: scripts/guard.mjs.
+exec node scripts/guard.mjs --message "$1"

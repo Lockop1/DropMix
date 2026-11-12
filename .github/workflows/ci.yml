@@ -38,6 +38,28 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+  forge:
+    name: forge (pytest, ruff)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ffmpeg: optional FLAC fixture copies; libsndfile1: soundfile; build-essential: madmom.
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg libsndfile1 build-essential
+
+      - name: Install uv
+        run: pipx install uv
+
+      - run: uv sync --project tools/forge --locked
+      - run: uv run --project tools/forge ruff check tools/forge
+      - run: uv run --project tools/forge pytest tools/forge
+
   e2e:
     name: e2e (Playwright)
     if: github.event_name == 'pull_request' && github.base_ref == 'main'

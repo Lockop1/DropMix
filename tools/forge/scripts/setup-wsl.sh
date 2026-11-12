@@ -121,8 +121,14 @@ fi
 if command -v uv >/dev/null 2>&1; then
   info "uv found: $(command -v uv) ($(uv --version))"
 else
-  info "Installing uv into $UV_INSTALL_DIR (official installer from astral.sh, no sudo)"
-  curl -LsSf https://astral.sh/uv/install.sh | sh
+  info "About to download and run the official uv installer (no sudo):"
+  echo "      curl -LsSf https://astral.sh/uv/install.sh | sh"
+  echo "    It installs uv into $UV_INSTALL_DIR."
+  if confirm "Install uv now?"; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+  else
+    die "uv is required; install it yourself (https://docs.astral.sh/uv/) and re-run"
+  fi
   command -v uv >/dev/null 2>&1 || die "uv install failed"
   info "uv installed: $(uv --version)"
 fi

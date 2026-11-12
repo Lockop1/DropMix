@@ -6,6 +6,7 @@
  *   node scripts/guard.mjs              check the files staged for commit (pre-commit hook)
  *   node scripts/guard.mjs --all        check every tracked file (`pnpm guard`, CI)
  *   node scripts/guard.mjs <paths...>   check these files (relative to the current directory)
+ *   node scripts/guard.mjs --message <file>   check a commit message (commit-msg hook)
  *
  * A file fails when:
  *   audio      its extension is an audio format or `.stemdeck`
@@ -151,7 +152,7 @@ function collect(argv) {
     return paths.map((p) => worktreeFile(process.cwd(), p));
   }
   const root = repoRoot();
-  const staged = git(['diff', '--cached', '--name-only', '-z', '--diff-filter=ACMR'], {
+  const staged = git(['diff', '--cached', '--name-only', '-z', '--diff-filter=ACMRT'], {
     cwd: root,
   });
   return splitZ(staged).map((p) => stagedFile(root, p));
@@ -159,7 +160,29 @@ function collect(argv) {
 
 export function main(argv = process.argv.slice(2)) {
   if (argv.includes('--help') || argv.includes('-h')) {
-    console.log('usage: node scripts/guard.mjs [--all | <paths...>]  (default: staged files)');
+    console.log(
+      'usage: node scripts/guard.mjs [--all | --message <file> | <paths...>]  (default: staged files)',
+    );
+    return 0;
+  }
+  const msgAt = argv.indexOf('--message');
+  if (msgAt !== -1) {
+    const file = argv[msgAt + 1];
+    if (!file) {
+      console.error('guard: --message needs the path of the commit message file');
+      return 2;
+    }
+    // Comment lines (git strips them) are ignored so the template cannot trip the check.
+    const text = readFileSync(file, 'utf8')
+      .split('\n')
+      .filter((line) => !line.startsWith('#'))
+      .join('\n');
+    if (text.toLowerCase().includes(NEEDLE)) {
+      console.error(
+        'guard: commit message: [name] contains the original game’s name; reword it (see CLAUDE.md).',
+      );
+      return 1;
+    }
     return 0;
   }
   const files = collect(argv);

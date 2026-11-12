@@ -12,8 +12,8 @@ The orchestrator updates this file after every integration. Scope for each task 
 | 0B | Audio spike: `/lab`, Stretcher candidates, render timings, seam test, FLAC decode | subagent | done | `docs/spikes/audio.md`, ADR 0006 |
 | 0C | Forge spike: setup script, `forge doctor`, `forge fixtures`, analysis accuracy on fixtures, dependency install report | subagent | done | `docs/spikes/forge.md`, ADR 0005 (separator provisional) |
 | 0D | Rooms spike: minimal Durable Object room, host code + QR, join, tap, latency, reconnect | subagent | done | `docs/spikes/rooms.md`, ADR 0007 |
-| 0V | Phase 0 verifier | subagent (fresh) | in-progress | |
-| 0P | `docs/playtests/phase-0.md` + checkpoint summary | orchestrator | review | `docs/playtests/phase-0.md` (final after the verifier) |
+| 0V | Phase 0 verifier | subagent (fresh) | done | all 8 criteria pass, no blockers; fixes applied in `fix(phase-0)` commit |
+| 0P | `docs/playtests/phase-0.md` + checkpoint summary | orchestrator | done | `docs/playtests/phase-0.md` |
 
 Deferred to the user's machine at Checkpoint 0 (cannot run in a cloud session — ADR 0001):
 
@@ -33,6 +33,26 @@ Deferred to the user's machine at Checkpoint 0 (cannot run in a cloud session �
 | 1F | `apps/web` Solo UI: home, import, Freestyle board, library drawer, drag + tap-to-place, master controls, Remix, per-slot mix, indicators, saved mixes | — | todo | integrates 1B/1C/1D |
 | 1V | Phase 1 verifier | — | todo | |
 | 1P | `docs/playtests/phase-1.md` + checkpoint summary | orchestrator | todo | |
+
+### Carried into Phase 1 from the Phase 0 verifier and spikes
+
+| Id | Task | Goes with |
+|---|---|---|
+| 1C-a | Stretcher request validation: reject non-finite `sampleRate` and non-finite samples; apply the hard ratio cap to the effective ratio (inputFrames / outputFrames), not only the declared one | 1C |
+| 1C-b | Crop handle audio to a short context before rendering (about 15–18% less work); re-measure the 8-bar budget | 1C |
+| 1C-c | Decide `StretchRequest.quality` and resampler-based transposition for bass/loop after the user's `/lab` numbers and by-ear notes | 1C |
+| 1D-a | Verify Forge-written FLAC (compressed frames) decodes length-exact in the browser | 1D / 1E |
+| 1E-a | Harden analysis for real songs: drop beats after the last onset; flag songs where a straight-line beat-grid BPM disagrees with the median-IBI BPM | 1E |
+| 0G-a | Guard: decide whether to catch separator/zero-width/homoglyph variants of the forbidden name and nested `library/` directories (exotic evasions the verifier found) | any |
+
+### Carried into Phase 3
+
+| Id | Task |
+|---|---|
+| 3A-a | `POST /rooms` returns a host token; the host's first `hello` must carry it (closes the host-claim race) |
+| 3A-b | `helloTimeoutMs` for sockets that never say `hello`; per-IP join rate limit; Origin check on WebSocket connects; restrict CORS on `POST /rooms` |
+| 3B-a | Error codes `not_player` and `replaced`; delete `packages/protocol/src/spike.ts` |
+| 3-ci | Run the e2e job on every pull request once it has been seen green on GitHub |
 
 ## Later phases
 

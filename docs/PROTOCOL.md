@@ -22,7 +22,7 @@ Only text metadata crosses the network. Audio and art never do.
 | `lobby.start` | — | host |
 | `intent` | `intentId`, `intent` (an engine `Intent`) | anyone seated |
 | `view.request` | — | anyone seated (after a `seq` gap) |
-| `ping` | `time` | anyone |
+| `ping` | `time` | anyone, after `hello` |
 
 ### Server → client
 
@@ -53,7 +53,7 @@ Only text metadata crosses the network. Audio and art never do.
 
 - HTTP: `POST /rooms` → `{ code }` creates a room; `GET /rooms/:code` → whether it exists. WebSocket path: `/parties/room/:code`. In development the web app proxies all of it under `/rooms-api`.
 - A WebSocket to a code that was never created gets `error{room_not_found}` and a close.
-- Close codes 4000–4999 mean "do not reconnect": 4001 replaced by a newer connection for the same seat, 4003 not host, 4004 room not found, 4005 unsupported version, 4009 room full.
+- Close codes 4000–4999 mean "do not reconnect": 4000 `hello` names a different room than the socket's, 4001 replaced by a newer connection for the same seat, 4003 not host, 4004 room not found, 4005 unsupported version, 4009 room full.
 - `rate_limited` is sent at most once per window; excess frames are dropped.
 - A frame before `hello` gets `bad_message`. A valid v1 message the server does not implement yet gets `wrong_phase`.
 - `ping.time` is the client's own clock, echoed back unchanged; `serverTime` is the server's.

@@ -140,7 +140,7 @@ Notes:
 - The waltz's "bass root" score is low by construction (its bass plays the root once and the
   fifth twice per bar); it is a negative fixture and only its rejection is tested.
 - The same thresholds are asserted in `tools/forge/tests/test_analysis.py` for both backend
-  configurations, per fixture. `uv run --project tools/forge pytest`: **153 passed, 0 skipped,
+  configurations, per fixture. `uv run --project tools/forge pytest tools/forge`: **153 passed, 0 skipped,
   0 failed** (3 min 22 s on this machine).
 - E minor fixtures come out as "G major" and C# minor as "E major": relative-key answers with
   the right PCS, which is all the game uses (§7.1).
@@ -230,7 +230,7 @@ All commands run from the repo root on the laptop, after `bash tools/forge/scrip
 
 | What | Why not here | Command on the laptop |
 |---|---|---|
-| beat_this accuracy (the preferred beat backend) | checkpoint host `cloud.cp.jku.at` blocked | `uv run --project tools/forge forge models download beat_this-final0` then `uv run --project tools/forge forge fixtures --out .fixtures && uv run --project tools/forge forge analyze .fixtures --beats beat_this`. The pytest suite also picks beat_this automatically once it loads: `uv run --project tools/forge pytest` |
+| beat_this accuracy (the preferred beat backend) | checkpoint host `cloud.cp.jku.at` blocked | `uv run --project tools/forge forge models download beat_this-final0` then `uv run --project tools/forge forge fixtures --out .fixtures && uv run --project tools/forge forge analyze .fixtures --beats beat_this`. The pytest suite also picks beat_this automatically once it loads: `uv run --project tools/forge pytest tools/forge` |
 | GPU separation time per song and per stage, peak GPU memory | no GPU | `uv run --project tools/forge python tools/forge/scripts/bench_separation.py ~/bench-songs --dry-run` (check the plan), then without `--dry-run`. Put 3 of your own songs in `~/bench-songs`. Paste the printed tables into `docs/playtests/phase-0.md` |
 | By-ear separator choice (A vs B) | no real songs, no ears | listen to `library/bench/A/<song>/` vs `library/bench/B/<song>/` (vocals, drums, bass, other). Listen for: vocal bleed in `other`, hi-hat smearing in `drums`, bass leaking into `other`, artifacts in vocal tails |
 | SDR per stem on all fixtures with the GPU | CPU too slow for the full set (about 17 min per 52 s fixture for config A here) | `uv run --project tools/forge forge fixtures --out .fixtures && uv run --project tools/forge python tools/forge/scripts/bench_separation.py --fixtures .fixtures` |

@@ -4,7 +4,7 @@ Layers (from `docs/BUILD_PROMPT.md` §16.1). Filled in as each layer lands.
 
 | Layer | Tool | Where | Command |
 |---|---|---|---|
-| Unit + property | Vitest + fast-check | `packages/*/test`, `apps/web/test` | `pnpm test` |
+| Unit (+ property tests with fast-check from Phase 1) | Vitest | `packages/*/test`, `apps/web/test` | `pnpm test` |
 | Repo guard | `node --test` | `scripts/guard.test.mjs` | `pnpm test` (or `pnpm test:scripts`) |
 | Pack JSON Schema freshness | Vitest | `packages/pack/test/schema-file.test.ts` | `pnpm test` |
 | Audio DSP helpers + stretcher backends | Vitest (Node; WASM backends run under Node) | `packages/audio/test` | `pnpm test` |
@@ -12,7 +12,7 @@ Layers (from `docs/BUILD_PROMPT.md` §16.1). Filled in as each layer lands.
 | Audio benchmark | Playwright-driven headless Chromium, prints JSON + markdown | `e2e/bench/lab-bench.mjs` | `node e2e/bench/lab-bench.mjs --label "<machine>"` (add `--nonpermissive` to include the flagged backends) |
 | Rooms server | Vitest; pure room logic + the Worker in real workerd via wrangler's `createTestHarness` | `apps/rooms/test` | `pnpm test` |
 | Rooms e2e + latency | Playwright, host + 3 players, WebSocket frame inspection | `e2e/tests/roomlab.spec.ts`, `e2e/bench/rooms-latency.mjs` | `pnpm e2e -- --trace off`, `pnpm --filter @stemdeck/e2e bench:rooms` |
-| Forge | pytest on `forge fixtures` ground truth | `tools/forge/tests` | `uv run --project tools/forge pytest` |
+| Forge | pytest on `forge fixtures` ground truth | `tools/forge/tests` | `uv run --project tools/forge pytest tools/forge` |
 | E2E | Playwright, desktop Chromium + 360×640 mobile emulation (touch) | `e2e/` | `pnpm e2e -- --trace off` |
 | Real devices | the user, at every checkpoint | `docs/playtests/` | — |
 
@@ -27,7 +27,7 @@ Run from the repo root after `pnpm install` (which also points git at `.githooks
 | `pnpm test` | Vitest in every workspace (Turborepo), then the guard tests (`node --test`) |
 | `pnpm build` | every workspace's `build`; only `apps/web` produces output (`apps/web/dist`) |
 | `pnpm guard` | `node scripts/guard.mjs --all`: checks every tracked file |
-| `pnpm e2e -- --trace off` | Playwright: starts the web dev server on port 5173 and runs `e2e/tests` in both projects |
+| `pnpm e2e -- --trace off` | Playwright: starts the web dev server on port 5173 and the local room server on port 8787, then runs `e2e/tests` in both projects |
 | `pnpm --filter @stemdeck/<name> test` | one workspace's tests (e.g. `@stemdeck/pack`) |
 | `pnpm --filter @stemdeck/pack export-schema` | regenerates `packages/pack/schema/pack.schema.json` from the zod schema |
 
@@ -36,7 +36,7 @@ Notes:
 - Library packages are consumed as TypeScript source (`exports` points at `src/index.ts`); Vite and Vitest compile them. Their `build` script is a type check, not an emit.
 - `pnpm e2e` forwards its arguments to `playwright test` (e.g. `pnpm e2e -- --project mobile-360`). One project only: `--project desktop-chromium` or `--project mobile-360`.
 - If a dev server is already running on port 5173, Playwright reuses it locally (never in CI).
-- Turborepo telemetry is disabled in the root scripts and in CI (`TURBO_TELEMETRY_DISABLED=1`).
+- Turborepo telemetry is disabled in the root scripts and in CI (`TURBO_TELEMETRY_DISABLED=1`), and `pnpm install` opts the machine out for direct `turbo` runs (`turbo telemetry disable`). Prefer the root scripts.
 
 ## Pre-commit guard
 

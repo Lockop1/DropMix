@@ -5,7 +5,7 @@
 
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, test } from 'node:test';
@@ -151,6 +151,19 @@ describe('guard: git modes', () => {
     assert.match(out, /loop\.ogg: \[audio\]/);
   });
 
+  test('default mode checks a staged type change (symlink replaced by a file)', () => {
+    gitIn('init', '-q');
+    symlinkSync('target.txt', path.join(dir, 'notes.txt'));
+    gitIn('add', 'notes.txt');
+    gitIn('-c', 'user.name=t', '-c', 'user.email=t@example.invalid', 'commit', '-q', '-m', 'link');
+    rmSync(path.join(dir, 'notes.txt'));
+    put('notes.txt', `${MIXED_CASE_NAME}\n`);
+    gitIn('add', 'notes.txt');
+    const { code, out } = guard();
+    assert.equal(code, 1, out);
+    assert.match(out, /notes\.txt: \[name\]/);
+  });
+
   test('--all checks every tracked file', () => {
     gitIn('init', '-q');
     put('ok.ts', 'export {};\n');
@@ -160,5 +173,30 @@ describe('guard: git modes', () => {
     assert.equal(code, 1);
     assert.match(out, /library\/song\.txt: \[library\]/);
     assert.doesNotMatch(out, /ok\.ts/);
+  });
+});
+
+describe('guard: commit messages', () => {
+  test('passes an ordinary message', () => {
+    const { code, out } = guard('--message', put('MSG', 'feat(audio): add the render pool\n'));
+    assert.equal(code, 0, out);
+  });
+
+  test('blocks a message containing the original game name in mixed case', () => {
+    const { code, out } = guard(
+      '--message',
+      put('MSG', `fix: make it more like ${MIXED_CASE_NAME}\n`),
+    );
+    assert.equal(code, 1);
+    assert.match(out, /commit message: \[name\]/);
+  });
+
+  test('ignores comment lines that git strips', () => {
+    const { code, out } = guard('--message', put('MSG', `chore: tidy\n# ${MIXED_CASE_NAME}\n`));
+    assert.equal(code, 0, out);
+  });
+
+  test('fails with usage when the file is missing from the arguments', () => {
+    assert.equal(guard('--message').code, 2);
   });
 });

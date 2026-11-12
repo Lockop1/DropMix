@@ -76,7 +76,7 @@ uv run --project tools/forge forge doctor
 ```
 
 1. Paste the `forge doctor` table below. The rows that matter: Python 3.11, ffmpeg, `nvidia-smi`, torch CUDA, model weights.
-2. Run the tests: `uv run --project tools/forge pytest` (about 3–4 minutes; should end with `passed` and no failures).
+2. Run the tests: `uv run --project tools/forge pytest tools/forge` (about 4 minutes; should end with `passed` and no failures).
 3. Generate the synthetic test songs and analyze them:
    ```bash
    uv run --project tools/forge forge fixtures --out .fixtures

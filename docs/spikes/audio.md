@@ -20,8 +20,8 @@ Spec: `docs/BUILD_PROMPT.md` §5.1 (stretch/pitch row, audio format row), §7, �
   cents on a 73 Hz bass fundamental). SoundTouch and Rubber Band are exact (< 0.1 cent).
 - **Render time on this container (single worker, cloud vCPU):** Signalsmith 8-bar stereo loop
   **326–581 ms** (r = 1 … r = 0.8; output 20–25 s), 16 bars 658–1056 ms. That is ≈ 43× realtime
-  and is proportional to output length. The §16.2 laptop budget (≤ 400 ms) is met at r ≥ 1 and
-  missed by ≈ 45 % at r = 0.8 here; the phone budget (≤ 1200 ms) is plausible but unmeasured.
+  and is proportional to output length. The §16.2 laptop budget (≤ 400 ms) is met at r = 1, borderline at r = 1.25
+  (352–431 ms across runs) and missed by ≈ 45–55 % at r = 0.8 here; run-to-run variation is about ±15 %; the phone budget (≤ 1200 ms) is plausible but unmeasured.
 - SoundTouch (LGPL) is 5–7× faster than Signalsmith but WSOLA timing jitter is **±11–17 ms** at
   t = 0 (fails ±2 ms) and it has no formant mode. Rubber Band R3 (GPL) has the best pitch and
   good timing (≤ 1.7 ms) but takes **2.4–4.5 s** per 8-bar loop (way over budget).
