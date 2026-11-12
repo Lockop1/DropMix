@@ -7,7 +7,11 @@ Layers (from `docs/BUILD_PROMPT.md` §16.1). Filled in as each layer lands.
 | Unit + property | Vitest + fast-check | `packages/*/test`, `apps/web/test` | `pnpm test` |
 | Repo guard | `node --test` | `scripts/guard.test.mjs` | `pnpm test` (or `pnpm test:scripts`) |
 | Pack JSON Schema freshness | Vitest | `packages/pack/test/schema-file.test.ts` | `pnpm test` |
-| Audio (real browser) | Vitest browser mode / Playwright, OfflineAudioContext | `packages/audio/test-browser` | tbd in 0B / 1C |
+| Audio DSP helpers + stretcher backends | Vitest (Node; WASM backends run under Node) | `packages/audio/test` | `pnpm test` |
+| Audio (real browser) | Playwright against `/lab` (short benchmark: exact length, onset error ±2 ms, FLAC decode) | `e2e/tests/lab.spec.ts` | `pnpm e2e -- --trace off` |
+| Audio benchmark | Playwright-driven headless Chromium, prints JSON + markdown | `e2e/bench/lab-bench.mjs` | `node e2e/bench/lab-bench.mjs --label "<machine>"` (add `--nonpermissive` to include the flagged backends) |
+| Rooms server | Vitest; pure room logic + the Worker in real workerd via wrangler's `createTestHarness` | `apps/rooms/test` | `pnpm test` |
+| Rooms e2e + latency | Playwright, host + 3 players, WebSocket frame inspection | `e2e/tests/roomlab.spec.ts`, `e2e/bench/rooms-latency.mjs` | `pnpm e2e -- --trace off`, `pnpm --filter @stemdeck/e2e bench:rooms` |
 | Forge | pytest on `forge fixtures` ground truth | `tools/forge/tests` | `uv run --project tools/forge pytest` |
 | E2E | Playwright, desktop Chromium + 360×640 mobile emulation (touch) | `e2e/` | `pnpm e2e -- --trace off` |
 | Real devices | the user, at every checkpoint | `docs/playtests/` | — |
