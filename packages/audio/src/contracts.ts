@@ -179,6 +179,13 @@ export interface StretchResult {
 /**
  * Offline time-stretch + pitch-shift. Runs inside a Web Worker; never on the audio thread.
  * Must be deterministic: the same request yields the same samples.
+ *
+ * Alignment rule: output frame j corresponds to input frame j · inputFrames / outputFrames.
+ * Any algorithmic latency or priming is compensated inside the backend, so onsets land on the
+ * ideal grid (target: within ±2 ms).
+ *
+ * `outputFrames` is authoritative for length. `ratio` must agree with inputFrames / outputFrames
+ * within 1 %; a request where they disagree is rejected.
  */
 export interface Stretcher {
   readonly id: StretcherId;
