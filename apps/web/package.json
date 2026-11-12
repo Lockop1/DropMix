@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stemdeck/audio": "workspace:*",
     "@stemdeck/protocol": "workspace:*",
     "@stemdeck/ui": "workspace:*",
     "partysocket": "1.3.0",

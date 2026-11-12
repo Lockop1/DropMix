@@ -16,9 +16,13 @@
   "dependencies": {
     "@stemdeck/engine": "workspace:*",
     "@stemdeck/harmony": "workspace:*",
-    "@stemdeck/pack": "workspace:*"
+    "@stemdeck/pack": "workspace:*",
+    "rubberband-wasm": "3.3.0",
+    "signalsmith-stretch": "1.3.2",
+    "soundtouchjs": "0.3.0"
   },
   "devDependencies": {
+    "@types/node": "^22.20.5",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   }
