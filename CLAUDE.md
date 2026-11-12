@@ -9,6 +9,8 @@ Two halves:
 
 Scope, rules and roadmap live in `docs/BUILD_PROMPT.md` (the source of truth). Read the sections your task names before writing code.
 
+The user's later instructions (autonomy, test songs, drop-in importer, the neon-club design brief) are in `docs/HANDOFF.md` and ADR 0008; where they differ from the build prompt, they win.
+
 ## STEMDECK constraints
 
 ```
@@ -54,6 +56,8 @@ docs/
   decisions/        ADRs (NNNN-title.md)
   spikes/           Phase 0 spike reports
   playtests/        checkpoint test scripts
+  prompts/          saved subagent prompts, ready to send
+  HANDOFF.md        current state + the user's latest instructions
 apps/
   web/              PWA: /, /solo, /puzzle, /host, /join/:code, /play, /lab, /settings
   rooms/            Cloudflare Worker + Room Durable Object

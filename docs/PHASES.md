@@ -21,7 +21,13 @@ Deferred to the user's machine at Checkpoint 0 (cannot run in a cloud session �
 - 0C: separation on 3 real songs with 2 separator configs, GPU timings, the separator ADR's final pick.
 - 0D: joining the test room from a phone over a quick tunnel.
 
+## Handoff (2026-11-12)
+
+The cloud session stopped here at the user's request; a local session on the user's laptop continues from `docs/HANDOFF.md`. Scope changes since the build prompt are in ADR 0008. Checkpoint 0 was not playtested: its deferred measurements are in `docs/HANDOFF.md` §3.
+
 ## Phase 1 — MVP: solo Freestyle on one device
+
+Ready-to-send prompts for 1A, 1D and 1E are in `docs/prompts/phase-1/`. They were launched once and stopped within minutes for the handoff; nothing from those runs was kept.
 
 | Id | Task | Owner | Status | Links |
 |---|---|---|---|---|
@@ -29,8 +35,9 @@ Deferred to the user's machine at Checkpoint 0 (cannot run in a cloud session �
 | 1B | `packages/engine`: board, cards, stacking, Freestyle, `LocalRoom`, intent log + replay | — | todo | |
 | 1C | `packages/audio` v1: transport, worker scheduler, render pool + Stretcher, LRU cache, reconciler, graph, iOS unlock/session/wake-lock | — | todo | depends on 1A |
 | 1D | `packages/pack`: schema + JSON Schema export, zip → OPFS import, catalog API, lazy decode | — | todo | |
-| 1E | Forge v1: ingest → top-1 candidates → loudness → export; `overrides.yaml`; contract test | — | todo | |
+| 1E | Forge v1: ingest → top-1 candidates → loudness → export; `overrides.yaml`; contract test; **inbox drop folder + watch mode; `forge demo-pack` (50 original songs)** | — | todo | ADR 0008 |
 | 1F | `apps/web` Solo UI: home, import, Freestyle board, library drawer, drag + tap-to-place, master controls, Remix, per-slot mix, indicators, saved mixes | — | todo | integrates 1B/1C/1D |
+| DS-1 | Design system groundwork: tokens, signature typeface, logo, Card/Slot/Board/Hand components, motion primitives, `/styleguide` | — | todo | ADR 0008, `docs/HANDOFF.md` §5 |
 | 1V | Phase 1 verifier | — | todo | |
 | 1P | `docs/playtests/phase-1.md` + checkpoint summary | orchestrator | todo | |
 
@@ -53,6 +60,13 @@ Deferred to the user's machine at Checkpoint 0 (cannot run in a cloud session �
 | 3A-b | `helloTimeoutMs` for sockets that never say `hello`; per-IP join rate limit; Origin check on WebSocket connects; restrict CORS on `POST /rooms` |
 | 3B-a | Error codes `not_player` and `replaced`; delete `packages/protocol/src/spike.ts` |
 | 3-ci | Run the e2e job on every pull request once it has been seen green on GitHub |
+
+### Added by ADR 0008 (after the functionality is in)
+
+| Id | Task |
+|---|---|
+| DS-2 | Full visual pass: club scene with reactive crowd (Three.js welcome, lazy, 2D fallback), unique menu layouts, procedural UI sound effects behind a `UiSfx` contract, transitions, Remix moment |
+| 2A+ | Studio accepts drag-and-drop of song files (feeds the same inbox pipeline) |
 
 ## Later phases
 
