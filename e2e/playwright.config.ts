@@ -39,12 +39,23 @@ export default defineConfig({
       },
     },
   ],
-  webServer: {
-    command: 'pnpm --filter @stemdeck/web dev',
-    url: `http://localhost:${port}`,
-    reuseExistingServer: !isCI,
-    timeout: 120_000,
-    stdout: 'ignore',
-    stderr: 'pipe',
-  },
+  webServer: [
+    {
+      command: 'pnpm --filter @stemdeck/web dev',
+      url: `http://localhost:${port}`,
+      reuseExistingServer: !isCI,
+      timeout: 120_000,
+      stdout: 'ignore',
+      stderr: 'pipe',
+    },
+    {
+      // Rooms spike (0D): the local room server (`wrangler dev`, no account, no network).
+      command: 'pnpm --filter @stemdeck/rooms dev',
+      url: 'http://localhost:8787/health',
+      reuseExistingServer: !isCI,
+      timeout: 120_000,
+      stdout: 'ignore',
+      stderr: 'pipe',
+    },
+  ],
 });

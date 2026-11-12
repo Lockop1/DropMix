@@ -1,0 +1,23 @@
+// Rooms Worker + Room Durable Object (task 0D spike). Local `wrangler dev` only: this project
+// has no Cloudflare account, no routes and no deploy step. Never run `wrangler login`/`deploy`.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "stemdeck-rooms",
+  "main": "src/index.ts",
+  // Must not be newer than the bundled workerd (1.20261023.x for wrangler 4.155.0).
+  "compatibility_date": "2026-10-20",
+  // No telemetry (CLAUDE.md: no analytics). The scripts also set WRANGLER_SEND_METRICS=false.
+  "send_metrics": false,
+  "durable_objects": {
+    "bindings": [{ "name": "Room", "class_name": "Room" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
+  "vars": {
+    // Idle expiry in ms (LIMITS.idleExpiryMs = 30 min). Tests override it with a short value.
+    "ROOM_IDLE_EXPIRY_MS": "1800000"
+  },
+  "dev": {
+    "ip": "localhost",
+    "port": 8787
+  }
+}

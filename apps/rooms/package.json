@@ -2,12 +2,24 @@
   "name": "@stemdeck/rooms",
   "version": "0.0.0",
   "private": true,
-  "description": "Rooms backend (Cloudflare Worker + Room Durable Object). Placeholder until task 0D.",
+  "description": "Rooms backend (Cloudflare Worker + Room Durable Object via partyserver). Local wrangler dev only.",
   "type": "module",
   "scripts": {
-    "dev": "node -e \"console.log('rooms spike not implemented yet (task 0D)')\"",
-    "typecheck": "node -e \"console.log('@stemdeck/rooms: placeholder, nothing to typecheck (task 0D)')\"",
-    "test": "node -e \"console.log('@stemdeck/rooms: placeholder, no tests yet (task 0D)')\"",
-    "build": "node -e \"console.log('@stemdeck/rooms: placeholder, nothing to build (task 0D)')\""
+    "dev": "WRANGLER_SEND_METRICS=false CLOUDFLARE_CF_FETCH_ENABLED=false WRANGLER_NO_SKILLS_UPDATE_PROMPTS=true wrangler dev",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p test",
+    "test": "WRANGLER_SEND_METRICS=false CLOUDFLARE_CF_FETCH_ENABLED=false WRANGLER_NO_SKILLS_UPDATE_PROMPTS=true vitest run",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stemdeck/protocol": "workspace:*",
+    "partyserver": "0.5.10",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261110.1",
+    "@types/node": "^22.19.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0",
+    "wrangler": "4.155.0"
   }
 }
