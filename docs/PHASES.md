@@ -13,7 +13,7 @@ The orchestrator updates this file after every integration. Scope for each task 
 | 0C | Forge spike: setup script, `forge doctor`, `forge fixtures`, analysis accuracy on fixtures, dependency install report | subagent | done | `docs/spikes/forge.md`, ADR 0005 (separator provisional) |
 | 0D | Rooms spike: minimal Durable Object room, host code + QR, join, tap, latency, reconnect | subagent | done | `docs/spikes/rooms.md`, ADR 0007 |
 | 0V | Phase 0 verifier | subagent (fresh) | in-progress | |
-| 0P | `docs/playtests/phase-0.md` + checkpoint summary | orchestrator | todo | |
+| 0P | `docs/playtests/phase-0.md` + checkpoint summary | orchestrator | review | `docs/playtests/phase-0.md` (final after the verifier) |
 
 Deferred to the user's machine at Checkpoint 0 (cannot run in a cloud session — ADR 0001):
 
